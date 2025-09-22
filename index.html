@@ -102,26 +102,58 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg w-full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-      <div class="flex items-center">
-        <div class="bg-white/20 p-2 rounded-lg mr-3">
-          <i class="fas fa-car-battery text-2xl"></i>
-        </div>
-        <h1 class="text-2xl font-bold">AE BMS MONITORING</h1>
+<!-- Header -->
+<header class="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg w-full relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center">
+      <div class="bg-white/20 p-2 rounded-lg mr-3">
+        <i class="fas fa-car-battery text-2xl"></i>
       </div>
-      <div class="flex items-center space-x-4">
-        <div class="hidden md:flex items-center space-x-2 text-sm bg-white/10 px-3 py-1 rounded-full">
-          <i class="fas fa-satellite-dish"></i>
-          <span id="id_monitoring">-</span>
-        </div>
-        <button class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition">
+      <h1 class="text-2xl font-bold">AE BMS MONITORING</h1>
+    </div>
+
+    <div class="flex items-center space-x-4">
+      <div class="hidden md:flex items-center space-x-2 text-sm bg-white/10 px-3 py-1 rounded-full">
+        <i class="fas fa-satellite-dish"></i>
+        <span id="id_monitoring">-</span>
+      </div>
+
+      <!-- Tombol Settings dengan Dropdown -->
+      <div class="relative">
+        <!-- Ikon Roda Gigi -->
+        <button id="settingsBtn" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition">
           <i class="fas fa-cog"></i>
         </button>
+
+        <!-- Dropdown Menu -->
+        <div id="dropdownMenu"
+          class="absolute right-0 mt-2 w-44 bg-white text-gray-800 rounded-lg shadow-lg hidden">
+          <a href="http://192.168.22.247/" class="block px-4 py-2 hover:bg-gray-100">⚡ Battery Config</a>
+          <a href="#" class="block px-4 py-2 hover:bg-gray-100">📡 Network</a>
+          <a href="#" class="block px-4 py-2 hover:bg-gray-100">⚙️ System Settings</a>
+          <hr class="my-1">
+          <a href="#" class="block px-4 py-2 hover:bg-red-100 text-red-600">🚪 Logout</a>
+        </div>
       </div>
     </div>
-  </header>
+  </div>
+</header>
+
+<!-- Script -->
+<script>
+  const btn = document.getElementById("settingsBtn");
+  const menu = document.getElementById("dropdownMenu");
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation(); // cegah klik dari tembus ke window
+    menu.classList.toggle("hidden");
+  });
+
+  // Tutup dropdown kalau klik di luar
+  window.addEventListener("click", () => {
+    menu.classList.add("hidden");
+  });
+</script>
 
   <!-- Main content -->
   <main class="flex-1 p-4 sm:p-6 w-full">
