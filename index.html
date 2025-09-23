@@ -101,12 +101,33 @@
     #id_monitoring_footer {
   display: none;
 }
+body {
+  background-color: #ffffff;
+  color: #000000;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body[data-theme="dark"] {
+  background-color: #121212;
+  color: #222;
+}
+
+/* Header ikut dark mode */
+header {
+  background-color: #ffffff;
+  color: #000000;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body[data-theme="dark"] header {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
-
 <!-- Header -->
-<header class="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg w-full relative">
+<header id="mainHeader" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg w-full relative">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
     <div class="flex items-center">
       <div class="bg-white/20 p-2 rounded-lg mr-3">
@@ -135,7 +156,7 @@
             <a id="networkBtn" href="#" class="block px-4 py-2 hover:bg-gray-100">📡 Network</a>
             <a id="timerLink" href="#" class="block px-4 py-2 hover:bg-gray-100">⏱ Timer</a>
           <hr class="my-1">
-          <a href="#" class="block px-4 py-2 hover:bg-red-100 text-red-600">🚪 Logout</a>
+          <a id="themeToggleLink" href="#" class="block px-4 py-2 hover:bg-gray-100">🌙 Dark Mode</a>
         </div>
       </div>
     </div>
@@ -157,7 +178,7 @@
   <main class="flex-1 p-4 sm:p-6 w-full">
     <div class="max-w-7xl mx-auto">
       <div class="mb-6 flex justify-between items-center">
-        <h2 class="text-xl font-semibold text-gray-800">Battery Systems</h2>
+        <h2 class="text-xl font-semibold text-gray-500">Battery Systems</h2>
         <div class="text-sm text-gray-500">
           <span id="total-batteries">0</span> batteries connected
         </div>
@@ -744,6 +765,39 @@ function renderCards(datane) {
       networkModal.classList.add("hidden");
     }
   });
+</script>
+<script>
+const themeToggleLink = document.getElementById('themeToggleLink');
+const body = document.body;
+const header = document.getElementById('mainHeader');
+
+function setTheme(theme) {
+  body.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+
+  // Ubah menu link text
+  themeToggleLink.innerHTML = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+
+  // Ubah class header Tailwind untuk dark mode
+  if (theme === 'dark') {
+    header.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-blue-800', 'text-white');
+    header.classList.add('bg-gray-900', 'text-gray-100');
+  } else {
+    header.classList.remove('bg-gray-900', 'text-gray-100');
+    header.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-blue-800', 'text-white');
+  }
+}
+
+// Load tema dari localStorage
+const savedTheme = localStorage.getItem('theme') || 'light';
+setTheme(savedTheme);
+
+// Event toggle
+themeToggleLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  setTheme(newTheme);
+});
 </script>
 </body>
 </html>
