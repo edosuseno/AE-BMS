@@ -130,7 +130,7 @@
           class="absolute right-0 mt-2 w-44 bg-white text-gray-800 rounded-lg shadow-lg hidden">
             <a id="batteryConfigLink" href="#" class="block px-4 py-2 hover:bg-gray-100">⚙️ Device Config</a>
             <a id="networkBtn" href="#" class="block px-4 py-2 hover:bg-gray-100">📡 Network</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100">⏱ Timer</a>
+            <a id="timerlink" href="#" class="block px-4 py-2 hover:bg-gray-100">⏱ Timer</a>
           <hr class="my-1">
           <a href="#" class="block px-4 py-2 hover:bg-red-100 text-red-600">🚪 Logout</a>
         </div>
@@ -386,6 +386,9 @@
   let batteryLink = document.getElementById("batteryConfigLink");
   if (batteryLink) {
     batteryLink.href = "http://" + a[0] + "/";
+      let timerLink = document.getElementById("timerLink");
+  if (timerLink) {
+    timerLink.href = "http://" + a[0] + "/timer";
   }
         } else {
           try {
