@@ -103,8 +103,7 @@
 }
   </style>
 </head>
-<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-  <header class="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-gray-800 dark:to-gray-900">
+<body class="bg-gray-50 min-h-screen flex flex-col">
 
 <!-- Header -->
 <header class="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg w-full relative">
@@ -136,9 +135,7 @@
             <a id="networkBtn" href="#" class="block px-4 py-2 hover:bg-gray-100">📡 Network</a>
             <a id="timerLink" href="#" class="block px-4 py-2 hover:bg-gray-100">⏱ Timer</a>
           <hr class="my-1">
-  <a href="#" id="themeToggle" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
-    <i class="fas fa-moon mr-2"></i> Dark Mode
-  </a>
+          <a href="#" class="block px-4 py-2 hover:bg-red-100 text-red-600">🚪 Logout</a>
         </div>
       </div>
     </div>
@@ -179,7 +176,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-gray-300 dark:bg-gray-950 dark:text-gray-200 py-4 w-full">
+<footer class="bg-gray-800 text-gray-300 py-4 w-full">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
     <div class="text-sm">
       © 2025 BMS Monitor System |
@@ -748,37 +745,5 @@ function renderCards(datane) {
     }
   });
 </script>
-<script>
-  const themeToggle = document.getElementById("themeToggle");
-
-  function setDarkMode() {
-    document.documentElement.classList.add("dark"); // aktifkan dark di <html>
-    localStorage.setItem("theme", "dark");
-    themeToggle.innerHTML = '<i class="fas fa-sun mr-2"></i> Light Mode';
-  }
-
-  function setLightMode() {
-    document.documentElement.classList.remove("dark"); // hapus dark di <html>
-    localStorage.setItem("theme", "light");
-    themeToggle.innerHTML = '<i class="fas fa-moon mr-2"></i> Dark Mode';
-  }
-
-  // cek preferensi awal
-  if (localStorage.getItem("theme") === "dark") {
-    setDarkMode();
-  } else {
-    setLightMode();
-  }
-
-  themeToggle.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (document.documentElement.classList.contains("dark")) {
-      setLightMode();
-    } else {
-      setDarkMode();
-    }
-  });
-</script>
-
 </body>
 </html>
