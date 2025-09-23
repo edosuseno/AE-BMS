@@ -39,10 +39,20 @@
     }
     
     .battery-card {
+      background-color: var(--card-lapis);
+      color: var(--card-text);
       transition: all 0.3s ease;
-      border-left: 4px solid var(--primary);
+      border-left: 4px solid var(--card-bg);
     }
-    
+
+    .battery-card h3 {
+      color: var(--card-text);
+    }
+
+    .battery-card span {
+      color: var(--card-subtext);
+    }
+
     .battery-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
@@ -114,7 +124,7 @@ body[data-theme="dark"] {
 
 /* Header ikut dark mode */
 header {
-  background-color: #ffffff;
+  background-color: #2563eb;
   color: #000000;
   transition: background-color 0.3s, color 0.3s;
 }
@@ -123,11 +133,12 @@ body[data-theme="dark"] header {
   background-color: #1f1f1f;
   color: #ffffff;
 }
+
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 <!-- Header -->
-<header id="mainHeader" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg w-full relative">
+<header id="mainHeader" class="bg-gradient-to-r text-white shadow-lg w-full relative">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
     <div class="flex items-center">
       <div class="bg-white/20 p-2 rounded-lg mr-3">
@@ -470,7 +481,7 @@ function renderCards(datane) {
       if (!card) {
         card = document.createElement("div");
         card.id = cardId;
-        card.className = "battery-card bg-white rounded-xl shadow-sm p-5 cursor-pointer hover:shadow-md fade-in";
+        card.className = "battery-card rounded-xl shadow-sm p-5 cursor-pointer hover:shadow-md fade-in";
         card.dataset.addr = String(batt.addr);
         card.innerHTML = `
           <div class="flex items-center justify-between mb-4">
@@ -780,11 +791,21 @@ function setTheme(theme) {
 
   // Ubah class header Tailwind untuk dark mode
   if (theme === 'dark') {
-    header.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-blue-800', 'text-white');
-    header.classList.add('bg-gray-900', 'text-gray-100');
+    document.body.classList.add('dark');
+    document.documentElement.style.setProperty('--card-bg', '#333');
+    document.documentElement.style.setProperty('--card-lapis', '#222');
+    document.documentElement.style.setProperty('--card-text', '#ccc');
+    document.documentElement.style.setProperty('--card-subtext', '#777');
+    document.documentElement.style.setProperty('--icon-voltage', '#666'); // kuning terang
+    document.documentElement.style.setProperty('--icon-current', '#60a5fa'); // biru terang
   } else {
-    header.classList.remove('bg-gray-900', 'text-gray-100');
-    header.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-blue-800', 'text-white');
+    document.body.classList.remove('dark');
+    document.documentElement.style.setProperty('--card-bg', '#2563eb');
+    document.documentElement.style.setProperty('--card-lapis', '#fff');
+    document.documentElement.style.setProperty('--card-text', '#1f2937');
+    document.documentElement.style.setProperty('--card-subtext', '#4b5563');
+    document.documentElement.style.setProperty('--icon-voltage', '#fbbf24');
+    document.documentElement.style.setProperty('--icon-current', '#3b82f6');
   }
 }
 
