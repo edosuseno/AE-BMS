@@ -42,7 +42,7 @@
       background-color: var(--card-lapis);
       color: var(--card-text);
       transition: all 0.3s ease;
-      border-left: 4px solid var(--card-bg);
+      border-left: 5px solid var(--card-bg);
     }
 
     .battery-card h3 {
@@ -55,7 +55,7 @@
 
     .battery-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
     }
     
     .progress-bar {
@@ -118,13 +118,13 @@ body {
 }
 
 body[data-theme="dark"] {
-  background-color: #121212;
+  background-color: #111;
   color: #222;
 }
 
 /* Header ikut dark mode */
 header {
-  background-color: #2563eb;
+  background-color: #0455D1;
   color: #000000;
   transition: background-color 0.3s, color 0.3s;
 }
@@ -134,6 +134,14 @@ body[data-theme="dark"] header {
   color: #ffffff;
 }
 
+.battery-card i {
+  /* tidak usah pakai var() */
+}
+
+/* khusus dark kita override */
+body.dark .battery-card i {
+
+}
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
@@ -704,42 +712,14 @@ function renderCards(datane) {
 
    
 
-    // Initialize on load
+      // Initialize on load
     window.onload = function() {
-      const params = new URLSearchParams(window.location.search);
-      
-      if ([...params].length > 0) {
-        let queryData = {};
-        for (const [key, value] of params.entries()) {
-          queryData[key] = value;
-        }
-        
-        id_logger = queryData.id;
-        
-        if(id_logger === undefined){
-          let userInput = prompt("Masukkan ID Logger:");
-          if (userInput === null || userInput.trim() === "") {
-            alert("Error: Please reload and input a value!");
-          } else {
-            id_logger = userInput;
-            startMQTT();
-            renderCards();
-          }
-        } else {
-          startMQTT();
-          renderCards();
-        }
-      } else {
-        // If no URL parameters, ask for ID
-        let userInput = prompt("Masukkan ID Logger:");
-        if (userInput === null || userInput.trim() === "") {
-          alert("Error: Please reload and input a value!");
-        } else {
-          id_logger = userInput;
-          startMQTT();
-          renderCards();
-        }
-      }
+      // langsung isi ID fix
+      id_logger = "316506218";
+
+      // jalankan langsung
+      startMQTT();
+      renderCards();
     };
   </script>
   <!-- Script -->
@@ -792,19 +772,18 @@ function setTheme(theme) {
   // Ubah class header Tailwind untuk dark mode
   if (theme === 'dark') {
     document.body.classList.add('dark');
-    document.documentElement.style.setProperty('--card-bg', '#333');
+    document.documentElement.style.setProperty('--card-bg', '#525252');
     document.documentElement.style.setProperty('--card-lapis', '#222');
-    document.documentElement.style.setProperty('--card-text', '#ccc');
-    document.documentElement.style.setProperty('--card-subtext', '#777');
-    document.documentElement.style.setProperty('--icon-voltage', '#666'); // kuning terang
-    document.documentElement.style.setProperty('--icon-current', '#60a5fa'); // biru terang
+    document.documentElement.style.setProperty('--card-text', '#ddd');
+    document.documentElement.style.setProperty('--card-subtext', '#ccc');
+    document.documentElement.style.setProperty('--icon-voltage', '#666'); 
+    document.documentElement.style.setProperty('--icon-current', '#60a5fa');
   } else {
     document.body.classList.remove('dark');
-    document.documentElement.style.setProperty('--card-bg', '#2563eb');
+    document.documentElement.style.setProperty('--card-bg', '#0455D1');
     document.documentElement.style.setProperty('--card-lapis', '#fff');
     document.documentElement.style.setProperty('--card-text', '#1f2937');
     document.documentElement.style.setProperty('--card-subtext', '#4b5563');
-    document.documentElement.style.setProperty('--icon-voltage', '#fbbf24');
     document.documentElement.style.setProperty('--icon-current', '#3b82f6');
   }
 }
