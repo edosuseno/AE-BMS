@@ -714,12 +714,40 @@ function renderCards(datane) {
 
       // Initialize on load
     window.onload = function() {
-      // langsung isi ID fix
-      id_logger = "316506218";
-
-      // jalankan langsung
-      startMQTT();
-      renderCards();
+      const params = new URLSearchParams(window.location.search);
+      
+      if ([...params].length > 0) {
+        let queryData = {};
+        for (const [key, value] of params.entries()) {
+          queryData[key] = value;
+        }
+        
+        id_logger = queryData.id;
+        
+        if(id_logger === undefined){
+          let userInput = prompt("Masukkan ID Logger:");
+          if (userInput === null || userInput.trim() === "") {
+            alert("Error: Please reload and input a value!");
+          } else {
+            id_logger = userInput;
+            startMQTT();
+            renderCards();
+          }
+        } else {
+          startMQTT();
+          renderCards();
+        }
+      } else {
+        // If no URL parameters, ask for ID
+        let userInput = prompt("Masukkan ID Logger:");
+        if (userInput === null || userInput.trim() === "") {
+          alert("Error: Please reload and input a value!");
+        } else {
+          id_logger = userInput;
+          startMQTT();
+          renderCards();
+        }
+      }
     };
   </script>
   <!-- Script -->
