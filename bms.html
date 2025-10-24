@@ -750,21 +750,31 @@ function renderCards(datane) {
     // 1. Inisialisasi MQTT/ID Logger
     const params = new URLSearchParams(window.location.search);
     
-    // Ambil nilai ID dari URL
-    const urlId = params.get('id');
-
-    if (urlId && urlId.trim() !== "") {
-        // Jika ID ada di URL dan tidak kosong
-        id_logger = urlId;
-    } else {
-        // Jika ID tidak ada atau kosong, gunakan default dan log pesan biasa (bukan error/warning)
+    if ([...params].length > 0) {
+      let queryData = {};
+      for (const [key, value] of params.entries()) {
+        queryData[key] = value;
+      }
+      
+      id_logger = queryData.id;
+      
+      if(id_logger === undefined || id_logger.trim() === ""){
+        // Mengganti prompt() yang bermasalah dengan default value dan console.error yang lebih informatif
         id_logger = 'default-id';
-        console.log("Info: ID Logger tidak ditemukan di URL. Menggunakan ID default: 'default-id'. Untuk koneksi BMS yang benar, tambahkan ?id=NAMA_ID ke URL.");
+        console.error("Warning: ID Logger tidak ditemukan di URL. Menggunakan ID default: 'default-id'. Harap tambahkan ?id=NAMA_ID ke URL.");
+        startMQTT();
+        renderCards();
+      } else {
+        startMQTT();
+        renderCards();
+      }
+    } else {
+      // If no URL parameters, set default ID and warn
+      id_logger = 'default-id';
+      console.error("Warning: ID Logger tidak ditemukan di URL. Menggunakan ID default: 'default-id'. Harap tambahkan ?id=NAMA_ID ke URL.");
+      startMQTT();
+      renderCards();
     }
-    
-    // Lanjutkan inisialisasi
-    startMQTT();
-    renderCards();
     
     // 2. Load background image saat inisialisasi
     loadBackgroundImage();
