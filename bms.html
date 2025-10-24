@@ -465,7 +465,7 @@ if (timerLink) {
   function getCurrentTimeHHMMSS() {
     const now = new Date();
     let hours = now.getHours().toString().padStart(2, '0');
-    let minutes = now.getMinutes().toString().padStart(2, '0');
+    let minutes = now.getMinutes().getMinutes().toString().padStart(2, '0');
     let seconds = now.getSeconds().toString().padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
   }
@@ -758,22 +758,30 @@ function renderCards(datane) {
       
       id_logger = queryData.id;
       
-      if(id_logger === undefined || id_logger.trim() === ""){
-        // Mengganti prompt() yang bermasalah dengan default value dan console.error yang lebih informatif
-        id_logger = 'default-id';
-        console.error("Warning: ID Logger tidak ditemukan di URL. Menggunakan ID default: 'default-id'. Harap tambahkan ?id=NAMA_ID ke URL.");
-        startMQTT();
-        renderCards();
+      if(id_logger === undefined){
+        // Menggunakan modal kustom atau prompt karena alert tidak disarankan
+        let userInput = prompt("Masukkan ID Logger:"); 
+        if (userInput === null || userInput.trim() === "") {
+          console.error("Error: Please reload and input a value!");
+        } else {
+          id_logger = userInput;
+          startMQTT();
+          renderCards();
+        }
       } else {
         startMQTT();
         renderCards();
       }
     } else {
-      // If no URL parameters, set default ID and warn
-      id_logger = 'default-id';
-      console.error("Warning: ID Logger tidak ditemukan di URL. Menggunakan ID default: 'default-id'. Harap tambahkan ?id=NAMA_ID ke URL.");
-      startMQTT();
-      renderCards();
+      // If no URL parameters, ask for ID
+      let userInput = prompt("Masukkan ID Logger:");
+      if (userInput === null || userInput.trim() === "") {
+        console.error("Error: Please reload and input a value!");
+      } else {
+        id_logger = userInput;
+        startMQTT();
+        renderCards();
+      }
     }
     
     // 2. Load background image saat inisialisasi
