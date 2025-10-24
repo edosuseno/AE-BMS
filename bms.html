@@ -146,7 +146,7 @@
     body[style*="background-image"] #networkModal > div,
     body[style*="background-image"] #backgroundModal > div,
     body[style*="background-image"] .battery-card {
-      background-color: rgba(255, 255, 255, 0.85); /* Default Light Mode Transparansi */
+      background-color: #; /* Default Light Mode Transparansi */
       backdrop-filter: blur(5px);
     }
     
@@ -156,7 +156,7 @@
     body[data-theme="dark"][style*="background-image"] #networkModal > div,
     body[data-theme="dark"][style*="background-image"] #backgroundModal > div,
     body[data-theme="dark"][style*="background-image"] .battery-card {
-      background-color: rgba(0, 0, 0, 0.7); /* Dark Mode Transparansi */
+      background-color: #; /* Dark Mode Transparansi */
       color: #ffffff;
       backdrop-filter: blur(5px);
     }
@@ -184,7 +184,8 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 <!-- Header -->
-<header id="mainHeader" class="bg-gradient-to-r text-white shadow-lg w-full relative">
+<!-- Menambahkan class z-40 ke header untuk konteks penumpukan -->
+<header id="mainHeader" class="bg-gradient-to-r text-white shadow-lg w-full relative z-40">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex justify-between items-center">
     <div class="flex items-center">
       <div class="bg-white/20 p-2 rounded-lg mr-3">
@@ -207,8 +208,9 @@
         </button>
 
         <!-- Dropdown Menu -->
+        <!-- Mengubah z-50 menjadi z-55 agar selalu di atas modal (modal menggunakan z-50) -->
         <div id="dropdownMenu"
-          class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg hidden z-50">
+          class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg hidden z-55">
             <a id="batteryConfigLink" href="#" class="block px-4 py-2 hover:bg-gray-100">⚙️ Device Config</a>
             <a id="networkBtn" href="#" class="block px-4 py-2 hover:bg-gray-100">📡 Network</a>
             <a id="timerLink" href="#" class="block px-4 py-2 hover:bg-gray-100">⏱ Timer</a>
@@ -801,26 +803,29 @@ function renderCards(datane) {
         
         id_logger = queryData.id;
         
-        if(id_logger === undefined){
+        if(id_logger === undefined || id_logger.trim() === ""){
+          // Jika ada param tapi ID kosong, fallback ke prompt
           let userInput = prompt("Masukkan ID Logger:");
           if (userInput === null || userInput.trim() === "") {
-            console.error("Error: Please reload and input a value!");
+            console.error("Error: Logger ID tidak dimasukkan. Koneksi MQTT dibatalkan.");
           } else {
-            id_logger = userInput;
+            id_logger = userInput.trim();
             startMQTT();
             renderCards();
           }
         } else {
+          // ID didapat dari URL
+          id_logger = id_logger.trim();
           startMQTT();
           renderCards();
         }
       } else {
-        // If no URL parameters, ask for ID
+        // Jika tidak ada URL parameters, minta ID
         let userInput = prompt("Masukkan ID Logger:");
         if (userInput === null || userInput.trim() === "") {
-          console.error("Error: Please reload and input a value!");
+          console.error("Error: Logger ID tidak dimasukkan. Koneksi MQTT dibatalkan.");
         } else {
-          id_logger = userInput;
+          id_logger = userInput.trim();
           startMQTT();
           renderCards();
         }
